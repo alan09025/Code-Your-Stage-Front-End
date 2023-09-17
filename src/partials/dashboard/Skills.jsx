@@ -8,11 +8,13 @@ import {
   Legend
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
+import { useCookies } from "react-cookie";
+import useSkills from "../../hooks/dashboard/useSkills";
 
-// Import utilities
-// import { useCookies } from "react-cookie";
+
+// import utilities;
 import { tailwindConfig } from "../../utils/Utils";
-import { skills } from "../../data/mockData";
+// import { skills } from "../../data/mockData";
 
 ChartJS.register(
   RadialLinearScale,
@@ -24,10 +26,12 @@ ChartJS.register(
 );
 
 function Skills() {
-  // const [cookies] = useCookies(["studentId"]);
-  // const { studentId } = cookies;
-  const studentId = "B11000000";
-  const { labels, values } = skills;
+  const [cookies] = useCookies(["studentId"]);
+  const { studentId } = cookies;
+  console.log(studentId)
+  // const studentId = "B11000000";
+  // const { labels, values } = skills;
+  const { labels, values } = useSkills(studentId);
   const chartData = {
     labels,
     datasets: [
@@ -42,14 +46,17 @@ function Skills() {
   };
 
   return (
-    <div className="flex">
-      <header className="">
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">
+    // <div className="flex dark:bg-slate-800 bg-white">
+    <div className="flex flex-col col-span-12 sm:col-span-6 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+
+      <header className="px-5 py-4 border-b border-slate-100 dark:border-slate-700">
+        <h2 className="font-semibold text-slate-800 dark:text-slate-100 text-left ">
           Skills
         </h2>
       </header>
+
       {studentId ? (
-        <div className="flex align-center flex-col px-28">
+        <div className="flex align-center flex-col px-28 ">
           <div className="text-center my-4">學號：{studentId}</div>
           <Radar data={chartData} />
         </div>
